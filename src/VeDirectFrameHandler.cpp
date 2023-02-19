@@ -33,7 +33,7 @@
  */
  
 #include <Arduino.h>
-#include "VeDirectFrameHandler.h"
+#include "VeDirectFrameHandler.hpp"
 
 #define MODULE "VE.Frame"	// Victron seems to use this to find out where logging messages were generated
 
@@ -50,16 +50,18 @@ VeDirectFrameHandler::VeDirectFrameHandler() :
 	frameIndex(0),
 	veName(),
 	veValue(),
-	veEnd(0)
+	veEnd(0),
+	_framecount(0)
 {
 }
 
+long VeDirectFrameHandler::GetFrameCount() { return _framecount; }
 /*
  *	rxData
  *  This function is called by the application which passes a byte of serial data
  *  It is unchanged from Victron's example code
  */
-void VeDirectFrameHandler::rxData(uint8_t inbyte)
+void VeDirectFrameHandler::RxData(uint8_t inbyte)
 {
 	//if (mStop) return;
 	if ( (inbyte == ':') && (mState != CHECKSUM) ) {
@@ -152,7 +154,7 @@ void VeDirectFrameHandler::rxData(uint8_t inbyte)
  * textRxEvent
  * This function is called every time a new name/value is successfully parsed.  It writes the values to the temporary buffer.
  */
-void VeDirectFrameHandler::textRxEvent(char * mName, char * mValue) {
+void VeDirectFrameHandler::textRxEvent(const char * mName, const char * mValue) {
     strcpy(tempName[frameIndex], mName);    // copy name to temporary buffer
     strcpy(tempValue[frameIndex], mValue);  // copy value to temporary buffer
 	frameIndex++;
@@ -184,6 +186,7 @@ void VeDirectFrameHandler::frameEndEvent(bool valid) {
 				}
 			}
 		}
+		_framecount++;
 	}
 	frameIndex = 0;	// reset frame
 }
@@ -192,7 +195,7 @@ void VeDirectFrameHandler::frameEndEvent(bool valid) {
  *	logE
  *  This function included for continuity and possible future use.	
  */
-void VeDirectFrameHandler::logE(char * module, char * error) {
+void VeDirectFrameHandler::logE(const char * module, const char * error) {
 	//Serial.print("MODULE: ");
     //Serial.println(module);
     //Serial.print("ERROR: ");
