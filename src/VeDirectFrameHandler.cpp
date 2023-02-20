@@ -56,6 +56,20 @@ VeDirectFrameHandler::VeDirectFrameHandler() :
 }
 
 long VeDirectFrameHandler::GetFrameCount() { return _framecount; }
+
+
+VeDirectData VeDirectFrameHandler::GetLastVeDirectData()
+{
+	VeDirectData data;
+
+	for (int i = 0; i < veEnd; i++)
+	{
+		data.mapToField(veName[i], veValue[i]);
+	}
+
+	return data;
+}
+
 /*
  *	rxData
  *  This function is called by the application which passes a byte of serial data

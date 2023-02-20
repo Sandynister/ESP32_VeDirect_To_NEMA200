@@ -56,11 +56,17 @@ void loop() {
       {
         Serial.printf("++++++Frame: %4i +++++++++++++\n", currentFrame);
 
-        for(int i = 0; i < VeDirect.veEnd; i++)
+      for(int i = 0; i < VeDirect.veEnd; i++)
         {
           Serial.printf("%s\t%s\n", VeDirect.veName[i], VeDirect.veValue[i]);
         }
-
+        printf("-----------------------------\n");
+        VeDirectData data = VeDirect.GetLastVeDirectData();
+        Serial.printf("H1   : %d\n", data.DeepestDischarge);
+        Serial.printf("H2   : %d\n", data.LastDischarge);
+        Serial.printf("V    : %.2f\n", data.MainBatteryVoltage/1000.0);
+        Serial.printf("VS   : %.2f\n", data.MainBatteryVoltage/1000.0);
+        Serial.printf("ALARM: %d\n", data.Alarm);
         Serial.printf("++++++ endFrame +++++++++++++\n\n");
       }
       _frameCount = currentFrame;

@@ -7,6 +7,7 @@
  * 2021.02.23 - 0.3 - change frameLen to 22 per VE.Direct Protocol version 3.30
  * 
  */
+#include "VeDirectData.hpp"
 
 #ifndef FRAMEHANDLER_H_
 #define FRAMEHANDLER_H_
@@ -29,6 +30,7 @@ public:
     int frameIndex;                             // which line of the frame are we on
     int veEnd;                                  // current size (end) of the public buffer
     long GetFrameCount(); 
+    VeDirectData GetLastVeDirectData();    
 
 private:
     //bool mStop;                               // not sure what Victron uses this for, not using
